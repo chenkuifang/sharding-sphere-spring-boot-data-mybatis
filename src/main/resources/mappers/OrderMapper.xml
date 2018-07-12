@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.spring.boot.mybatis.repository.OrderRepository">
+    <resultMap id="dataMap" type="Order">
+        <id column="order_id" property="orderId" />
+        <result column="user_id" property="userId" />
+        <result column="goods_id" property="goodsId"/>
+        <result column="status" property="status" />
+    </resultMap>
+
+    <select id="list" parameterType="java.lang.Integer" resultMap="dataMap">
+        select * from t_order where user_id = #{userId}
+    </select>
+
+    <update id="dropTable">
+        DROP TABLE IF EXISTS t_order;
+    </update>
+    
+    <insert id="insert" parameterType="Order">
+        INSERT INTO t_order (
+          user_id,goods_id,status
+        )
+        VALUES (
+        #{userId,jdbcType=INTEGER},
+        #{goodsId,jdbcType=INTEGER},
+        #{status,jdbcType=VARCHAR}
+        )
+    </insert>
+    
+    <delete id="delete">
+        DELETE FROM t_order WHERE order_id = #{orderId,jdbcType=INTEGER}
+    </delete>
+</mapper>
