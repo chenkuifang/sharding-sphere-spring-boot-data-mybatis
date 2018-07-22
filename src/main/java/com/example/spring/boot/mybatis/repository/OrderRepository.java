@@ -28,8 +28,10 @@ public interface OrderRepository {
     Long insert(Order model);
 
     List<Order> list(Integer userId);
-    
+
+    List<Order> listByOrderId(String orderId);
+
     void delete(Long orderId);
-    
+
     void dropTable();
 }

@@ -2,31 +2,41 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.spring.boot.mybatis.repository.OrderRepository">
     <resultMap id="dataMap" type="Order">
-        <id column="order_id" property="orderId" />
-        <result column="user_id" property="userId" />
-        <result column="goods_id" property="goodsId"/>
-        <result column="status" property="status" />
+        <id column="order_id" property="orderId" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="total_price" property="totalPrice" jdbcType="NUMERIC"/>
+        <result column="pay_price" property="payPrice" jdbcType="NUMERIC"/>
+        <result column="amount" property="amount" jdbcType="INTEGER"/>
+        <result column="buyer_name" property="buyerName" jdbcType="VARCHAR"/>
+        <result column="buyer_phone" property="buyerPhone" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
     </resultMap>
 
     <select id="list" parameterType="java.lang.Integer" resultMap="dataMap">
         select * from t_order where user_id = #{userId}
     </select>
 
+    <select id="listByOrderId" parameterType="java.lang.String" resultMap="dataMap">
+        select * from t_order where order_id = #{orderId}
+    </select>
+
     <update id="dropTable">
         DROP TABLE IF EXISTS t_order;
     </update>
-    
+
     <insert id="insert" parameterType="Order">
-        INSERT INTO t_order (
-          user_id,goods_id,status
+        INSERT INTO t_order
+        (
+          order_id,user_id,total_price,pay_price,amount,buyer_name,buyer_phone,status
         )
-        VALUES (
-        #{userId,jdbcType=INTEGER},
-        #{goodsId,jdbcType=INTEGER},
-        #{status,jdbcType=VARCHAR}
+        VALUES
+        (
+            #{orderId},#{userId},#{totalPrice},
+            #{payPrice},#{amount},#{buyerName},
+            #{buyerPhone},#{status}
         )
     </insert>
-    
+
     <delete id="delete">
         DELETE FROM t_order WHERE order_id = #{orderId,jdbcType=INTEGER}
     </delete>

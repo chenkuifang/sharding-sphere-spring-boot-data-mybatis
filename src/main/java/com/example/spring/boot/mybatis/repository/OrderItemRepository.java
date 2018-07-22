@@ -17,7 +17,7 @@
 
 package com.example.spring.boot.mybatis.repository;
 
-import com.example.spring.boot.mybatis.entity.OrderItem;
+import com.example.spring.boot.mybatis.entity.OrderDetail;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -29,11 +29,11 @@ public interface OrderItemRepository {
     
     void truncateTable();
     
-    Long insert(OrderItem model);
+    Long insert(OrderDetail model);
     
     void delete(Long orderItemId);
     
-    List<OrderItem> selectAll();
+    List<OrderDetail> selectAll();
     
     void dropTable();
 }

@@ -21,13 +21,22 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
 public class Order {
 
-    private long orderId;
+    private String orderId;
     private long userId;
-    private long goodsId;
+    private Integer amount;
+    private BigDecimal totalPrice; // 订单总额
+    private BigDecimal payPrice; // 应付
+    private String buyerName;
+    private String buyerPhone;
     private String status;
+
+    private List<OrderDetail> details;
 }

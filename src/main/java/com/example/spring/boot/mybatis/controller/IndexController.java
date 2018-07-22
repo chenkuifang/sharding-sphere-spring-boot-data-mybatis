@@ -33,6 +33,11 @@ public class IndexController {
         return demoService.list(userId);
     }
 
+    @GetMapping("/listByOrderId/{OrderId}")
+    public List<Order> listByOrderId(@PathVariable("OrderId") String OrderId) {
+        return demoService.listByOrderId(OrderId);
+    }
+
     @GetMapping("/add")
     public void test() {
         demoService.add();

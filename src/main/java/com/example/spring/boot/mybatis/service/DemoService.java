@@ -17,32 +17,59 @@
 
 package com.example.spring.boot.mybatis.service;
 
+import com.example.spring.boot.mybatis.common.DateUtil;
 import com.example.spring.boot.mybatis.entity.Order;
 import com.example.spring.boot.mybatis.repository.OrderRepository;
+import org.apache.commons.lang3.RandomUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
 public class DemoService {
 
-    @Resource
+    @Autowired
     private OrderRepository orderRepository;
 
     public List<Order> list(Integer userId) {
         return orderRepository.list(userId);
     }
 
+    public List<Order> listByOrderId(String orderId) {
+        return orderRepository.listByOrderId(orderId);
+    }
+
     public void add() {
         System.out.println("1.Insert--------------");
+        int userId = 10001;
+        Order order;
         for (int i = 0; i < 5; i++) {
-            Order order = new Order();
+            order = new Order();
             // 根据userId % 2  决定数据库
-            order.setUserId(2);
+            order.setOrderId(generatorOrderId(userId));
+            order.setUserId(userId);
             order.setStatus("1");
-            order.setGoodsId(123);
+            order.setTotalPrice(new BigDecimal(200));
+            order.setPayPrice(new BigDecimal(200));
+            order.setAmount(1);
+            order.setBuyerName("quifar");
+            order.setBuyerPhone("15817864015");
             orderRepository.insert(order);
         }
     }
+
+    /**
+     * 生成分布式订单编码
+     * 当天日期+用户ID+4位随机数
+     *
+     * @return
+     */
+    private String generatorOrderId(int userId) {
+        final String day = DateUtil.getDays();
+        final int randomInt = RandomUtils.nextInt(1000, 9999);
+        return day + userId + randomInt;
+    }
+
 }
